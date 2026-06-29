@@ -10,7 +10,7 @@ import CsvUploader from './components/CsvUploader.jsx'
 import DataTable from './components/DataTable.jsx'
 import ErrorBanner from './components/ErrorBanner.jsx'
 import { parseRulesCSV, parseCartCSV } from './engine/csvParser.js'
-import { processCart, cartTotal } from './engine/discountEngine.js'
+import { processCart, cartTotal, calculateCartOffer,} from "./engine/discountEngine.js";
 
 // ── Column definitions ───────────────────────────────────────────
 
@@ -115,6 +115,8 @@ export default function App() {
 
   const [results, setResults]       = useState(null)
 
+  const [cartSummary, setCartSummary] = useState(null);
+
   // ── Handlers ──
 
   function handleRulesLoad(csvText, fileName) {
@@ -134,8 +136,11 @@ export default function App() {
   }
 
   function handleCalculate() {
-    const res = processCart(cartItems, rules)
-    setResults(res)
+    const itemResults = processCart(cartItems, rules);
+    const summary = calculateCartOffer(itemResults, rules);
+
+    setResults(itemResults);
+    setCartSummary(summary);
   }
 
   const canCalculate = rules.length > 0 && cartItems.length > 0
@@ -146,12 +151,13 @@ export default function App() {
     <div style={S.page}>
       {/* Header */}
       <div style={S.header}>
-        <div style={S.logoTxt}>O<span style={S.logoSpan}>pp</span>tra</div>
+        <div style={S.logoTxt}>
+          O<span style={S.logoSpan}>pp</span>tra
+        </div>
         <div style={S.headerSub}>Discount Engine</div>
       </div>
 
       <div style={S.main}>
-
         {/* Upload row */}
         <div style={S.grid2}>
           {/* Rules upload */}
@@ -166,9 +172,9 @@ export default function App() {
             />
             <ErrorBanner errors={rulesErrors} />
             {rules.length > 0 && (
-              <div style={{ marginTop: '0.75rem' }}>
-                <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>
-                  {rules.length} rule{rules.length > 1 ? 's' : ''} loaded
+              <div style={{ marginTop: "0.75rem" }}>
+                <div style={{ fontSize: 11, color: "#888", marginBottom: 4 }}>
+                  {rules.length} rule{rules.length > 1 ? "s" : ""} loaded
                 </div>
                 <DataTable columns={RULES_COLUMNS} rows={rules} />
               </div>
@@ -187,9 +193,10 @@ export default function App() {
             />
             <ErrorBanner errors={cartErrors} />
             {cartItems.length > 0 && (
-              <div style={{ marginTop: '0.75rem' }}>
-                <div style={{ fontSize: 11, color: '#888', marginBottom: 4 }}>
-                  {cartItems.length} item{cartItems.length > 1 ? 's' : ''} loaded
+              <div style={{ marginTop: "0.75rem" }}>
+                <div style={{ fontSize: 11, color: "#888", marginBottom: 4 }}>
+                  {cartItems.length} item{cartItems.length > 1 ? "s" : ""}{" "}
+                  loaded
                 </div>
                 <DataTable columns={CART_COLUMNS} rows={cartItems} />
               </div>
@@ -198,7 +205,7 @@ export default function App() {
         </div>
 
         {/* Calculate button */}
-        <div style={{ textAlign: 'center', marginBottom: '1.2rem' }}>
+        <div style={{ textAlign: "center", marginBottom: "1.2rem" }}>
           <button
             style={canCalculate ? S.btn : S.btnDisabled}
             onClick={handleCalculate}
@@ -207,7 +214,7 @@ export default function App() {
             Calculate Discounts
           </button>
           {!canCalculate && (
-            <div style={{ fontSize: 11, color: '#888', marginTop: 6 }}>
+            <div style={{ fontSize: 11, color: "#888", marginTop: 6 }}>
               Upload both files to calculate
             </div>
           )}
@@ -219,13 +226,28 @@ export default function App() {
             <div style={S.sectionTitle}>Cart Summary</div>
             <DataTable columns={RESULTS_COLUMNS} rows={results} />
             <div style={S.totalRow}>
-              <span style={S.totalLabel}>Cart Total</span>
-              <span style={S.totalValue}>Rs.{cartTotal(results).toLocaleString('en-IN')}</span>
+              <div style={{ textAlign: "right" }}>
+                <div>
+                  <strong>Subtotal:</strong> Rs.
+                  {cartSummary.subtotal.toLocaleString("en-IN")}
+                </div>
+
+                {cartSummary.cartDiscount > 0 && (
+                  <div style={{ color: "#1e5c2c", fontWeight: 600 }}>
+                    Cart Offer: -Rs.
+                    {cartSummary.cartDiscount.toLocaleString("en-IN")}
+                  </div>
+                )}
+
+                <div style={{ marginTop: 6 }}>
+                  <strong>Final Total:</strong> Rs.
+                  {cartSummary.finalTotal.toLocaleString("en-IN")}
+                </div>
+              </div>
             </div>
           </div>
         )}
-
       </div>
     </div>
-  )
+  );
 }

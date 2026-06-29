@@ -36,22 +36,35 @@ export function parseRulesCSV(csvText) {
     const rowNum = i + 2 // account for header row
     const missing = []
 
-    if (!row.rule_id) missing.push('rule_id')
-    if (!row.scope) missing.push('scope')
-    if (!row.applies_to) missing.push('applies_to')
-    if (!row.type) missing.push('type')
-    if (row.value === undefined || row.value === '') missing.push('value')
-    if (row.stackable === undefined || row.stackable === '') missing.push('stackable')
+    if (!row.rule_id) missing.push("rule_id");
+    if (!row.scope) missing.push("scope");
+
+    // applies_to is required only for brand/platform rules
+    const scopeValue = row.scope?.trim().toLowerCase();
+    if (
+      (scopeValue === "brand" || scopeValue === "platform") &&
+      !row.applies_to
+    ) {
+      missing.push("applies_to");
+    }
+
+    if (!row.type) missing.push("type");
+    if (row.value === undefined || row.value === "") missing.push("value");
+    if (row.stackable === undefined || row.stackable === "")
+      missing.push("stackable");
 
     if (missing.length > 0) {
       errors.push(`Row ${rowNum}: missing fields — ${missing.join(', ')}`)
       return
     }
 
-    const scope = row.scope.trim().toLowerCase()
-    if (scope !== 'brand' && scope !== 'platform') {
-      errors.push(`Row ${rowNum}: scope must be "brand" or "platform", got "${row.scope}"`)
-      return
+    const scope = row.scope.trim().toLowerCase();
+    const validScopes = ["brand", "platform", "cart"];
+    if (!validScopes.includes(scope)) {
+      errors.push(
+        `Row ${rowNum}: scope must be one of ${validScopes.join(", ")}, got "${row.scope}"`,
+      );
+      return;
     }
 
     const type = row.type.trim().toLowerCase()
@@ -72,11 +85,15 @@ export function parseRulesCSV(csvText) {
     data.push({
       ruleId: row.rule_id.trim(),
       scope,
-      appliesTo: row.applies_to.trim(),
+      appliesTo: row.applies_to ? row.applies_to.trim() : "",
       type,
       value,
       stackable,
-    })
+      minCartValue:
+        row.min_cart_value && row.min_cart_value.trim() !== ""
+          ? parseFloat(row.min_cart_value)
+          : null,
+    });
   })
 
   return { data, errors }
