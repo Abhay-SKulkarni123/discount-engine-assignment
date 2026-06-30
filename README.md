@@ -72,6 +72,13 @@ Deploy the generated `dist/` folder to **Vercel**, **Netlify**, or any static ho
 
 ---
 
+## Walkthrough Demo
+
+A short walkthrough demonstrating the complete application workflow on the live deployment.
+
+**Loom Walkthrough:**  
+https://www.loom.com/share/0ecf16814e51480d8b4c45bb33352659
+
 # How to use
 
 1. Upload `sample-data/rules.csv` as the discount rules input.
