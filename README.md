@@ -1,4 +1,4 @@
-# Opptra Discount Engine
+# Discount Engine | Opptra Frontend Developer Internship Assessment
 
 This is my implementation of the **Opptra Frontend Developer Internship Assignment**.
 
@@ -8,13 +8,13 @@ In addition to the required functionality, this implementation extends the base 
 
 ## Live Demo
 
-**Deployed Application:**  
-`<Add your Vercel URL here>`
+🌐 **Deployed Application:**  
+https://your-vercel-url.vercel.app
 
 ## Repository
 
-**GitHub Repository:**  
-(https://github.com/Abhay-SKulkarni123/discount-engine-assignment.git)
+📂 **GitHub Repository:**  
+https://github.com/Abhay-SKulkarni123/discount-engine-assignment.git
 
 ---
 
@@ -68,55 +68,16 @@ npm run build
 
 Deploy the generated `dist/` folder to **Vercel**, **Netlify**, or any static hosting provider.
 
-> Replace the Live Demo URL above before submission.
+🌐 **Live Application:** https://your-vercel-url.vercel.app
 
 ---
 
 # How to use
 
-## 1. Upload Discount Rules
-
-Upload
-
-```
-sample-data/rules.csv
-```
-
----
-
-## 2. Upload Cart
-
-Upload either
-
-```
-sample-data/cart.csv
-```
-
-or
-
-```
-sample-data/cart.pdf
-```
-
----
-
-## 3. Generate AI Rule (Optional)
-
-Enter a natural language rule such as
-
-```
-20% off Natura Casa
-```
-
-Review the generated rule and confirm before adding it to the rule set.
-
----
-
-## 4. Calculate Discounts
-
-Click **Calculate Discounts** to evaluate all applicable discounts and generate the pricing summary.
-
----
+1. Upload `sample-data/rules.csv` as the discount rules input.
+2. Upload either `sample-data/cart.csv` or `sample-data/cart.pdf` as the cart input.
+3. (Optional) Generate a discount rule using natural language and confirm it.
+4. Click **Calculate Discounts** to evaluate the cart.
 
 # Project structure
 
@@ -233,25 +194,31 @@ This provides deterministic parsing whenever possible while still supporting sem
 
 ## Home
 
-> _Add Screenshot_
+![Home](assets/screenshots/home.png)
+
+---
+
+## Rules Upload
+
+![Rules Upload](assets/screenshots/rules-upload.png)
 
 ---
 
 ## AI Rule Generator
 
-> _Add Screenshot_
+![AI Rule Generator](assets/screenshots/ai-rule-generator.png)
 
 ---
 
 ## PDF Upload
 
-> _Add Screenshot_
+![PDF Upload](assets/screenshots/pdf-upload.png)
 
 ---
 
 ## Results
 
-> _Add Screenshot_
+![Results](assets/screenshots/results.png)
 
 ---
 
