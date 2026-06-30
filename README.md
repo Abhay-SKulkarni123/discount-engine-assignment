@@ -210,9 +210,27 @@ This provides deterministic parsing whenever possible while still supporting sem
 
 ---
 
+## AI Rules Upload
+
+![AI Rules Upload](assets/screenshots/ai-rules-upload.png)
+
+---
+
+## CSV Upload
+
+![CSV Upload](assets/screenshots/csv-upload.png)
+
+---
+
 ## PDF Upload
 
 ![PDF Upload](assets/screenshots/pdf-upload.png)
+
+---
+
+## Final Calculations
+
+![Results](assets/screenshots/final-calculations.png)
 
 ---
 
