@@ -9,7 +9,7 @@ In addition to the required functionality, this implementation extends the base 
 ## Live Demo
 
 🌐 **Deployed Application:**  
-https://your-vercel-url.vercel.app
+https://discount-engine-assignment-theta.vercel.app/
 
 ## Repository
 
